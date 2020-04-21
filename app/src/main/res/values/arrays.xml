@@ -1,0 +1,14 @@
+<resources>
+    <array name="markets">
+        <item>Coolapk</item>
+        <item>360手机助手</item>
+    </array>
+    <array name="market_ids">
+        <item>coolapk</item>
+        <item>market360</item>
+    </array>
+    <array name="market_package_names">
+        <item>com.coolapk.market</item>
+        <item>market360</item>
+    </array>
+</resources>

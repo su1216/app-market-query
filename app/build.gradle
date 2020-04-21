@@ -1,0 +1,114 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def getProjectProperty(String propertyName) {
+    if (project.hasProperty(propertyName)) {
+        return project.property(propertyName)
+    }
+    return ""
+}
+
+def static releaseTime() {
+    return new Date().format("yyyyMMdd_HHmmss", TimeZone.getTimeZone("Asia/Shanghai"))
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        applicationId "com.su.market.query"
+        manifestPlaceholders = [
+                BUILD_TIME_VALUE  : releaseTime(),
+                PACKAGE_FROM_VALUE: getProjectProperty("who"),
+                COMMIT_ID_VALUE   : getProjectProperty("commit"),
+                BRANCH_VALUE      : getProjectProperty("branch"),
+        ]
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("assistant.jks")
+            storePassword project.property("jks.password")
+            keyAlias project.property("jks.alias")
+            keyPassword project.property("jks.password")
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    // rename the apk with the version name
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def projectName = "${rootProject.name}"
+            def flavorDimension = "${variant.productFlavors[0].name}"
+            def buildType = "${variant.buildType.name}"
+            def versionName = "${variant.versionName}"
+            outputFileName = new File("${projectName}-${flavorDimension}-${buildType}-${versionName}.apk")
+        }
+    }
+
+    flavorDimensions "channel"
+    productFlavors {
+        official {
+            dimension "channel"
+            manifestPlaceholders = [
+                    CHANNEL_NAME: name,
+                    BUGLY_APPID: "115caa1252",
+                    BUGLY_APP_CHANNEL: name,
+            ]
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    // https://github.com/ReactiveX/RxJava
+    api "io.reactivex.rxjava2:rxjava:2.2.19"
+    // https://github.com/ReactiveX/RxAndroid
+    api "io.reactivex.rxjava2:rxandroid:2.1.1"
+
+    // https://github.com/square/okhttp
+    api "com.squareup.okhttp3:okhttp:$okhttpVersion"
+//    api "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    // https://github.com/alibaba/fastjson
+    api "com.alibaba:fastjson:1.1.71.android"
+    // https://github.com/ChuckerTeam/chucker
+    debugApi "com.github.ChuckerTeam.Chucker:library:3.2.0"
+    releaseApi "com.github.ChuckerTeam.Chucker:library-no-op:3.2.0"
+
+    // https://bugly.qq.com/docs/release-notes/release-android-bugly/?v=20190916214340
+    api "com.tencent.bugly:crashreport:3.1.0"
+}

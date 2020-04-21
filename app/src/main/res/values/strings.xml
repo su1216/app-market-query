@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">应用数据监控</string>
+    <string name="app_list">应用列表</string>
+    <string name="input_keyword">请输入关键词</string>
+    <string name="preference_category_market">指定市场</string>
+    <string name="preference_category_app">指定应用</string>
+    <string name="preference_category_content">展示内容</string>
+    <string name="preference_title_comment">评论数</string>
+    <string name="preference_title_download">下载量</string>
+    <string name="preference_title_watch">关注数</string>
+    <string name="preference_title_package_name">包名</string>
+    <string name="preference_title_choose_app">选择应用</string>
+    <string name="preference_title_choose_market">选择市场</string>
+    <string name="preference_title_score">评分</string>
+    <string name="preference_title_score_count">评分数</string>
+    <string name="preference_title_time">时间</string>
+    <string name="search">查找</string>
+
+    <string name="app_desc">这是一个桌面小部件应用，专为开发者开发，用于展示开发者的应用在酷安的相关数据，包括评分、评分数、关注数、评论数、下载量等。</string>
+    <string name="app_notice">需要注意的是，作者并不能直接访问酷安的接口，所以我的思路是拿到HTML然后解析，这会至少带来三个问题：\n1.流量消耗（目前请求一次大概要30K）\n2.当应用的数据基数比较大的时候，比如已经有了上万的下载，在下一次刷新的时候，如果间隔时间很短，只有几十的下载增量，我没有办法抓取到。\n3.随着酷安的改版，此功能会失效，需要重新适配。</string>
+    <string name="others">作者其他应用</string>
+    <string name="other_assistant">android开发工具箱</string>
+    <string name="other_assistant_market">可在酷安、应用宝、应用汇、360手机助手、百度手机助手、锤子/坚果应用商店进行下载</string>
+    <string name="comment">评论</string>
+    <string name="done">完成</string>
+    <string name="download">下载</string>
+    <string name="watch">关注</string>
+    <string name="score">评分</string>
+    <string name="score_count">评分</string>
+    <string name="time">时间</string>
+    <string name="status_error">出错</string>
+    <string name="status_no_data">无数据</string>
+    <string name="status_no_network">无网络</string>
+    <string name="no_app_market_hint">未找到应用市场</string>
+    <string name="no_app_found">未找到页面，请确认信息输入正确</string>
+
+    <string name="key_package_name" translatable="false">packageName</string>
+    <string name="key_choose_market" translatable="false">chooseMarket</string>
+    <string name="key_choose_app" translatable="false">chooseApp</string>
+    <string name="key_score_switch" translatable="false">scoreSwitch</string>
+    <string name="key_score" translatable="false">score</string>
+    <string name="key_score_count_switch" translatable="false">scoreCount_switch</string>
+    <string name="key_score_count" translatable="false">scoreCount</string>
+    <string name="key_score_count_unit" translatable="false">scoreCountUnit</string>
+    <string name="key_watch_switch" translatable="false">watchSwitch</string>
+    <string name="key_watch" translatable="false">watch</string>
+    <string name="key_watch_unit" translatable="false">watchUnit</string>
+    <string name="key_comment_switch" translatable="false">commentSwitch</string>
+    <string name="key_comment" translatable="false">comment</string>
+    <string name="key_comment_unit" translatable="false">commentUnit</string>
+    <string name="key_download_switch" translatable="false">downloadSwitch</string>
+    <string name="key_download" translatable="false">download</string>
+    <string name="key_download_unit" translatable="false">downloadUnit</string>
+    <string name="key_time_switch" translatable="false">timeSwitch</string>
+    <string name="key_time" translatable="false">time</string>
+    <string name="s_backslash_s" translatable="false">%s / %s</string>
+</resources>

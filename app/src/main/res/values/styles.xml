@@ -1,0 +1,95 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AssistantBase" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <style name="AssistantToolbarThemeBase" parent="AssistantBase">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:windowBackground">@color/main_background</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="toolbarStyle">@style/AssistantToolbarStyle</item>
+        <item name="preferenceTheme">@style/AssistantPreferenceTheme</item>
+        <item name="navigationIcon">@drawable/ic_ab_back</item>
+        <item name="drawerArrowStyle">@style/DrawerIconStyle</item>
+    </style>
+
+    <style name="DrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="AssistantSearchViewToolbar" parent="AssistantToolbarThemeBase">
+        <!--修改SearchView激活时颜色-->
+        <item name="colorControlNormal">@android:color/white</item>
+        <!--修改SearchView的光标颜色-->
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AssistantToolBarTitleTextStyle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="AssistantToolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/AssistantToolBarTitleTextStyle</item>
+    </style>
+
+    <style name="AssistantPreferenceTheme" parent="@style/PreferenceThemeOverlay">
+        <item name="preferenceScreenStyle">@style/Preference.PreferenceScreen</item>
+        <item name="preferenceFragmentCompatStyle">@style/AssistantPreferenceFragmentStyle</item>
+        <item name="preferenceFragmentStyle">@style/AssistantPreferenceFragmentStyle</item>
+        <item name="preferenceCategoryStyle">@style/AssistantPreference.AssistantListPreferenceCategoryStyle</item>
+        <item name="preferenceStyle">@style/AssistantPreference</item>
+        <item name="checkBoxPreferenceStyle">@style/AssistantPreference.CheckBoxPreference</item>
+        <item name="switchPreferenceCompatStyle">@style/AssistantPreference.SwitchPreferenceCompat</item>
+        <item name="switchPreferenceStyle">@style/AssistantPreference.SwitchPreference</item>
+        <item name="dialogPreferenceStyle">@style/AssistantPreference.DialogPreference</item>
+        <item name="editTextPreferenceStyle">@style/AssistantPreference.DialogPreference.EditTextPreference</item>
+        <item name="preferenceFragmentListStyle">@style/AssistantPreferenceFragmentList</item>
+    </style>
+
+    <style name="AssistantPreference">
+        <item name="android:layout">@layout/preference_item</item>
+    </style>
+
+    <style name="AssistantPreference.AssistantListPreferenceCategoryStyle">
+        <item name="android:shouldDisableView">false</item>
+        <item name="android:selectable">false</item>
+        <item name="android:layout">@layout/preference_category_debug</item>
+    </style>
+
+    <style name="AssistantPreferenceFragmentStyle">
+        <item name="android:divider">@drawable/shape_preference_list_divider_debug</item>
+    </style>
+
+    <style name="AssistantPreference.CheckBoxPreference">
+        <item name="android:widgetLayout">@layout/preference_widget_checkbox</item>
+    </style>
+
+    <style name="AssistantPreference.SwitchPreferenceCompat">
+        <item name="android:widgetLayout">@layout/preference_widget_switch_compat</item>
+        <item name="android:switchTextOn">@string/v7_preference_on</item>
+        <item name="android:switchTextOff">@string/v7_preference_off</item>
+    </style>
+
+    <style name="AssistantPreference.SwitchPreference">
+        <item name="android:widgetLayout">@layout/preference_widget_switch_debug</item>
+        <item name="android:switchTextOn">@string/v7_preference_on</item>
+        <item name="android:switchTextOff">@string/v7_preference_off</item>
+    </style>
+
+    <style name="AssistantPreference.DialogPreference">
+        <item name="android:positiveButtonText">@android:string/ok</item>
+        <item name="android:negativeButtonText">@android:string/cancel</item>
+    </style>
+
+    <style name="AssistantPreference.DialogPreference.EditTextPreference">
+        <item name="android:dialogLayout">@layout/preference_dialog_edittext</item>
+    </style>
+
+    <style name="AssistantPreferenceFragmentList">
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+    </style>
+</resources>
