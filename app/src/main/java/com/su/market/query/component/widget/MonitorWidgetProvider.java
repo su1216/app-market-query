@@ -3,7 +3,6 @@ package com.su.market.query.component.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -22,10 +21,8 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.su.market.query.BuildConfig;
-import com.su.market.query.http.NetException;
-import com.su.market.query.util.NumberUtil;
 import com.su.market.query.R;
-import com.su.market.query.util.SpHelper;
+import com.su.market.query.http.NetException;
 import com.su.market.query.http.NullObject;
 import com.su.market.query.http.function.BusinessFunction;
 import com.su.market.query.http.observer.BaseObserver;
@@ -33,8 +30,11 @@ import com.su.market.query.market.ApkData;
 import com.su.market.query.market.Coolapk;
 import com.su.market.query.market.Market;
 import com.su.market.query.market.UnitUtil;
+import com.su.market.query.util.NumberUtil;
+import com.su.market.query.util.SpHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
@@ -81,17 +81,18 @@ public class MonitorWidgetProvider extends AppWidgetProvider {
         execute(context, appWidgetId);
     }
 
+    //会有莫名其妙的id进来
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.d(TAG, "onUpdate");
+        Log.d(TAG, "onUpdate: " + Arrays.toString(appWidgetIds));
         Set<Integer> set = SpHelper.Companion.getWidgetSet();
         set.clear();
         for (int id : appWidgetIds) {
             set.add(id);
+            execute(context, id);
+            resetWidget(context, id);
         }
         SpHelper.Companion.applyWidgetIds();
-        executeAll(context);
-        resetWidgetAll(context);
     }
 
     @Override
@@ -113,14 +114,6 @@ public class MonitorWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         Log.d(TAG, "onDisabled");
-    }
-
-    private void resetWidgetAll(Context context) {
-        int[] ids = getAppWidgetIds(context);
-        int N = ids.length;
-        for (int i = 0; i < N; i++) {
-            resetWidget(context, ids[i]);
-        }
     }
 
     private void resetWidget(Context context, final int appWidgetId) {
@@ -237,21 +230,14 @@ public class MonitorWidgetProvider extends AppWidgetProvider {
         return PendingIntent.getBroadcast(context, REQUEST_DATA + appWidgetId, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private void executeAll(final Context context) {
-        int[] ids = getAppWidgetIds(context);
-        int N = ids.length;
-        for (int i = 0; i < N; i++) {
-            execute(context, ids[i]);
-        }
-    }
-
     private void execute(final Context context, final int appWidgetId) {
         SpHelper spHelper = new SpHelper(appWidgetId);
         String packageName = spHelper.getPackageName();
-        Log.d(TAG, "execute appWidgetId: " + appWidgetId + " packageName: " + packageName);
         if (TextUtils.isEmpty(packageName)) {
+            Log.d(TAG, "execute invalid appWidgetId: " + appWidgetId);
             return;
         }
+        Log.d(TAG, "execute appWidgetId: " + appWidgetId + " packageName: " + packageName);
         showProgressBar(context, appWidgetId, true);
         mMarket.getNetRequest(packageName)
                 .map(new BusinessFunction<String, NullObject>() {
@@ -312,11 +298,5 @@ public class MonitorWidgetProvider extends AppWidgetProvider {
             views.setViewVisibility(R.id.refresh, View.VISIBLE);
         }
         appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views);
-    }
-
-    private static int[] getAppWidgetIds(Context context) {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        ComponentName componentName = new ComponentName(context, MonitorWidgetProvider.class.getName());
-        return appWidgetManager.getAppWidgetIds(componentName);
     }
 }
