@@ -21,6 +21,7 @@
     <string name="others">作者其他应用</string>
     <string name="other_assistant">android开发工具箱</string>
     <string name="other_assistant_market">可在酷安、应用宝、应用汇、360手机助手、百度手机助手、锤子/坚果应用商店进行下载</string>
+    <string name="other_assistant_desc">用于查看设备软硬件信息、反编译apk、应用信息全面展示、应用统计、权限统计、屏幕拾色以及大量开发相关内容</string>
     <string name="comment">评论</string>
     <string name="done">完成</string>
     <string name="download">下载</string>

@@ -1,13 +1,13 @@
 package com.su.market.query.ui
 
 import android.content.ActivityNotFoundException
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import com.su.market.query.AdminApp
 import com.su.market.query.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -17,15 +17,8 @@ class MainActivity : CommonBaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         assistantLayout.setOnClickListener {
-            val intent = Intent()
-            val componentName = ComponentName("com.coolapk.market", "com.coolapk.market.view.AppLinkActivity")
-            intent.component = componentName
-            intent.action = Intent.ACTION_VIEW
-            intent.addCategory(Intent.CATEGORY_DEFAULT)
-            intent.addCategory(Intent.CATEGORY_BROWSABLE)
-            intent.data = Uri.parse("https://coolapk.com/apk/com.su.assistant.pro")
             try {
-                startActivity(intent)
+                startActivity(AdminApp.coolapkIntent("com.su.assistant.pro"))
             } catch (e: ActivityNotFoundException) {
                 Toast.makeText(this, "ActivityNotFoundException", Toast.LENGTH_LONG).show()
             }

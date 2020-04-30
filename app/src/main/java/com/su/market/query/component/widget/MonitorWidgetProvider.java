@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.su.market.query.AdminApp;
 import com.su.market.query.BuildConfig;
 import com.su.market.query.R;
 import com.su.market.query.http.NetException;
@@ -137,7 +138,7 @@ public class MonitorWidgetProvider extends AppWidgetProvider {
         views.setTextViewText(R.id.rank_count, UnitUtil.INSTANCE.appendUnit(lastApkData.getRankCount(), lastApkData.getRankCountUnit()));
         views.setTextViewText(R.id.time_increment, "+0");
         views.setTextViewText(R.id.time, SDF.format(new Date()));
-        setLaunchPendingIntent(context, views, mMarket);
+        setLaunchPendingIntent(context, views, mMarket, packageName);
         setVisible(spHelper, views);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
@@ -160,6 +161,7 @@ public class MonitorWidgetProvider extends AppWidgetProvider {
         }
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         RemoteViews views = makeRemoteViews(context);
+        String packageName = spHelper.getPackageName();
         setIcon(context, spHelper.getPackageName(), views);
         views.setOnClickPendingIntent(R.id.refresh, makeUpdatePendingIntent(context, appWidgetId));
         views.setTextViewText(R.id.download_increment, plusSign(incrementDownload) + UnitUtil.INSTANCE.emitNumber(incrementDownload, 1));
@@ -174,7 +176,7 @@ public class MonitorWidgetProvider extends AppWidgetProvider {
         views.setTextViewText(R.id.rank_count, UnitUtil.INSTANCE.appendUnit(apkData.getRankCount(), apkData.getRankCountUnit()));
         views.setTextViewText(R.id.time_increment, "+" + incrementTime);
         views.setTextViewText(R.id.time, SDF.format(new Date(System.currentTimeMillis())));
-        setLaunchPendingIntent(context, views, mMarket);
+        setLaunchPendingIntent(context, views, mMarket, packageName);
         setVisible(spHelper, views);
         appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views);
     }
@@ -211,7 +213,14 @@ public class MonitorWidgetProvider extends AppWidgetProvider {
         return d >= 0 ? "+" : "-";
     }
 
-    private static void setLaunchPendingIntent(Context context, RemoteViews views, Market market) {
+    private static void setLaunchPendingIntent(Context context, RemoteViews views, Market market, String packageName) {
+        if (!TextUtils.isEmpty(packageName) && TextUtils.equals(market.getMarketInfo().getPackageName(), "com.coolapk.market")) {
+            Intent intent = AdminApp.Companion.coolapkIntent(packageName);
+            PendingIntent pi = PendingIntent.getActivity(context, REQUEST_MAIN, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setOnClickPendingIntent(R.id.icon, pi);
+            return;
+        }
+
         Intent intent = Market.Companion.getLaunchIntent(context, market.getMarketInfo());
         if (intent == null) {
             views.setOnClickPendingIntent(R.id.icon, null);

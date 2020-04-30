@@ -68,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/other_assistant_market"
+            android:text="@string/other_assistant_desc"
             android:textColor="@color/second_text"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
